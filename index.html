@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minta Maaf</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f9c4d2 0%, #d4a8e8 50%, #a8c4e8 100%);
+    }
+    .popup {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem 2rem 1.5rem;
+      max-width: 340px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .popup-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e0457b;
+      margin-bottom: 12px;
+    }
+    .popup-body {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn-maafin {
+      background: #e0457b;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.4s ease, padding 0.4s ease, background 0.2s;
+      transform-origin: center;
+    }
+    .btn-maafin:hover { background: #c73568; }
+    .btn-engga {
+      background: #e0e0e0;
+      color: #888;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 22px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .btn-engga:hover { background: #ccc; }
+    .hint {
+      font-size: 12px;
+      color: #e0457b;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+    .popup-thanks {
+      display: none;
+      padding: 1rem 0;
+    }
+    .popup-thanks .ty-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e0457b;
+      margin-bottom: 10px;
+    }
+    .popup-thanks .ty-body {
+      font-size: 15px;
+      color: #555;
+    }
+    @keyframes shake {
+      0%,100%{ transform: translateX(0); }
+      20%{ transform: translateX(-6px); }
+      40%{ transform: translateX(6px); }
+      60%{ transform: translateX(-4px); }
+      80%{ transform: translateX(4px); }
+    }
+    .shake {
+      animation: shake 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="popup" id="popup">
+
+    <!-- Bagian Pertanyaan -->
+    <div id="content-ask">
+      <div class="popup-title">Ciaa aku minta maaf yaaa😔</div>
+      <div class="popup-body">
+        Aku beneran tidaa bermaksud bikin kamu kesel.<br>
+        Maafin aku yaa ciaa ? 🥺
+      </div>
+      <div class="btn-row">
+        <button class="btn-maafin" id="btn-maafin" onclick="clickMaafin()">Maafin 🥹</button>
+        <button class="btn-engga" id="btn-engga" onclick="clickEngga()">Engga 🙃</button>
+      </div>
+      <div class="hint" id="hint"></div>
+    </div>
+
+    <!-- Bagian Terima Kasih -->
+    <div class="popup-thanks" id="content-thanks">
+      <div class="ty-title">Yayyy! Makasih yaa udah maafin 💗</div>
+      <div class="ty-body">Aku janji tidaa seperti itu lagii !!!</div>
+    </div>
+
+  </div>
+
+  <script>
+    let engga = 0;
+
+    const hints = [
+      '',
+      'Yah, masa engga sih... 🥺',
+      'Ayolah, maafin dong 😢',
+      'Okeyy, aku pasrah... 😭'
+    ];
+
+    // Mengurangi intensitas skala agar pembesaran lebih halus dan tidak terlalu besar
+    const scales = [1, 1.05, 1.12, 1.2]; 
+
+    function clickEngga() {
+      if (engga >= 3) return;
+      engga++;
+
+      const btnMaafin = document.getElementById('btn-maafin');
+      const btnEngga  = document.getElementById('btn-engga');
+      const hintEl    = document.getElementById('hint');
+
+      // Perbesar tombol Maafin secara halus menggunakan skala saja (tanpa menambah padding)
+      const s = scales[engga];
+      btnMaafin.style.transform = 'scale(' + s + ')';
+
+      // Shake tombol Engga
+      btnEngga.classList.remove('shake');
+      void btnEngga.offsetWidth; // reset animasi
+      btnEngga.classList.add('shake');
+
+      // Tampilkan pesan rayuan
+      hintEl.textContent = hints[engga];
+
+      // Kunci tombol Engga setelah 3x
+      if (engga >= 3) {
+        btnEngga.style.opacity        = '0.35';
+        btnEngga.style.pointerEvents  = 'none';
+        btnEngga.style.cursor         = 'default';
+      }
+    }
+
+    function clickMaafin() {
+      document.getElementById('content-ask').style.display   = 'none';
+      document.getElementById('content-thanks').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
